@@ -1,3 +1,5 @@
+require('./setup-mocha');
+
 const Node = require('../src/node');
 const LinkedList = require('../src/linked-list');
 
@@ -86,15 +88,34 @@ describe('LinkedList', () => {
             const list = new LinkedList();
             const position = 1;
             const data = 42;
-            let values = [10, 20];            
+            let values = [10, 20];
             values.forEach((value) => { list.append(value) });
-            
+
             list.insertAt(position, data);
             values.splice(position, 0, data);
 
             values.forEach((value, index) => {
                 expect(list.at(index)).to.equal(value);
             });
+        });
+
+        it('should insert data at head and tail', () => {
+            const list = new LinkedList();
+            const headData = 11;
+            const tailData = 99;
+            const headPosition = 0;
+            const tailPosition = 2;
+
+            list.append(32);
+            list.append(47);
+
+            list.insertAt(headPosition, headData);
+            list.insertAt(tailPosition, tailData);
+
+            expect(list.at(headPosition)).to.equal(headData);
+            expect(list.at(headPosition)).to.equal(list.head());
+            expect(list.at(tailPosition)).to.equal(tailData);
+            expect(list.at(tailPosition)).to.equal(list.tail());
         });
     });
     describe('#isEmpty', () => {
@@ -136,6 +157,26 @@ describe('LinkedList', () => {
             list.deleteAt(2);
 
             expect(list.at(2)).to.equal(4);
+        });
+
+        it('should delete data at head and tail', () => {
+            const list = new LinkedList();
+            const headPosition = 0;
+            const tailPosition = 3;
+
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            list.append(4);
+            list.append(5);
+
+            list.deleteAt(headPosition);
+            list.deleteAt(tailPosition);
+
+            expect(list.at(headPosition)).to.equal(2);
+            expect(list.at(headPosition)).to.equal(list.head());
+            expect(list.at(tailPosition)).to.equal(4);
+            expect(list.at(tailPosition)).to.equal(list.tail());
         });
     });
     describe('#reverse', () => {
